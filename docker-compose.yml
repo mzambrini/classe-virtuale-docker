@@ -4,6 +4,7 @@ services:
 
   jekyll:
     image: jekyll/jekyll:3
+    restart: always
     volumes:
       - ./:/srv/jekyll
     ports:
