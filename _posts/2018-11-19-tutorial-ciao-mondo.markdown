@@ -29,7 +29,7 @@ Saranno utilizzate immagine già esistenti per creare dei containers e cominciar
 In questo task vedremo all'opera il comando *docker run* utilizzato per creare e, contestualmente, avviare un container.
 La sintassi generica del sottocomando in questione è la seguente:
 
-```.term1
+```
     docker run [options] image [command] [args]
 ```
 
