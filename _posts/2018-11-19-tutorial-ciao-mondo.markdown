@@ -181,7 +181,7 @@ root@b26ffa9af2b7:/#
 Questo è un prompt dei comandi eseguito all'interno del container. Qui possiamo eseguire i comandi interpretabili dalla shell bash.
 potremmo, ad esempio, eseguire il comando:
 
-```.term2
+```.term1
     ls
 ```
 che riporterà un output del tipo 
