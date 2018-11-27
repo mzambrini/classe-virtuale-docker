@@ -82,6 +82,17 @@ Per evidenziare la struttura a livelli di un'immagine docker eseguiamo il seguen
 ```
 E' possibile notare non solo i **LAYERS** creati dalla nostra build, ma anche quelli presenti nell'immagine di partenza (clausola **FROM**)
 
+### Un tool interessante per l'analisi delle immagini
+
+Tra i tanti tools esistenti quale supporto a docker, è stato rilasciato in tempi recenti il tool **[dive](https://github.com/wagoodman/dive)**.
+E' un'immagine docker che ci permette di analizzare in dettaglio la composizione di un'immagine docker.
+
+Eseguiamo il seguente comando:
+```.term1
+   docker run --rm -it \
+   -v /var/run/docker.sock:/var/run/docker.sock \
+   wagoodman/dive:latest mondo
+```
 ## <a name="Task_3"></a>Creazione del container con binding su cartella dell'host
 Creiamo ora una cartella in locale e diamo i diritti in scrittura a tutti.
 ```.term1
