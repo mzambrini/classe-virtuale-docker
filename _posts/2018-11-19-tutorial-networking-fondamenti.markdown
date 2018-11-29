@@ -87,7 +87,7 @@ Nel nostro caso, sul finire del file json, ci sarà una sezione simile alla segu
                 }
 ```
 
-Possiamo vedere che, di default, il container è stato assegnato al bridge di default e che il suo indirizzo IP è 172.17.0.2 (durante l'esercitazione questo valore potrebbe differire).
+Possiamo vedere che il container è stato assegnato al bridge di default e che il suo indirizzo IP è 172.17.0.2 (durante l'esercitazione questo valore potrebbe differire).
 
 ## <a name="Task_3"></a>Ping!
 Proviamo ora ad eseguire un semplice comando ping:

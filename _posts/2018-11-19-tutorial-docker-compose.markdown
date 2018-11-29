@@ -314,5 +314,5 @@ ENTRYPOINT exec dockerize -wait http://${COUCHDB_USER}:${COUCHDB_PASSWORD}@${COU
 Con la prima istruzione **RUN**, tra le altre cose, andiamo ad installare l'applicazione *dockerfile* nel nostro container.
 Con l'istruzione **ENTRYPOINT** andiamo a invocare lo strumento che è sostanzialmente un wrapper al nostro metodo **npm start**
 
-Nello specifico, il flag **-wait [indirizzo http] -timeout 120s** chiede a dockerize di attendere un esito positivo (*HTTPS 2000 code*) dall'indirizzo HTTP fornito. Se questo non accade entro il timeout definito, lo script uscirà con un codice di errore facendo arrestare il container.
+Nello specifico, il flag **-wait [indirizzo http] -timeout 120s** chiede a dockerize di attendere un esito positivo (*HTTPS 200 code*) dall'indirizzo HTTP fornito. Se questo non accade entro il timeout definito, lo script uscirà con un codice di errore facendo arrestare il container.
 
