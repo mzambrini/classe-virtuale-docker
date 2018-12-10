@@ -71,7 +71,7 @@ e il seguente per visualizzare il file di script **apply-configuration.sh**
 
 Eseguiamo ora il comando:
 ```.term1
-   docker build -t my-was9-app -f Dockerfile9.
+   docker build -t my-was9-app -f Dockerfile9 .
 ```
 alla fine del processo, avremo creato la nostra immagine **my-was9-app**.
 
