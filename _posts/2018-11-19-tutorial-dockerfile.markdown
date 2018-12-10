@@ -68,7 +68,7 @@ alla fine, avremo creato la nostra immagine **mondo**.
 * **--build-arg USER=pincopalla**: indica di impostare il valore dell'argomento di build **USER** con il valore **pincopalla**
 * **--build-arg GROUP=gruppo**: indica di impostare il valore dell'argomento di build **GROUP** con il valore **gruppo**
 * **-t mondo**: imposta il nome (e opzionalmente) il tag dell'immagine da creare nel formato *nome:tag*
-* **.(dot)**: la cartella di riferimento (in questo caso quella dove viene esguito il comando
+* **.(dot)**: la cartella di riferimento (in questo caso quella dove viene eseguito il comando
 
 ### Effetti del comando
 Docker effettua la build dell'immagine assumendo come **docker context** la cartella dove è eseguito il comando.
