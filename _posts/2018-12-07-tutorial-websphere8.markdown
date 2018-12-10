@@ -61,7 +61,7 @@ I file rilevanti sono i seguenti:
 
 Eseguiamo il seguente comando per visualizzare il contenuto del **Dockerfile**
 ```.term1
-   cat Dockerfile
+   cat Dockerfile8
 ```
 e il seguente per visualizzare il file di script **apply-configuration.sh**
 ```.term1
@@ -85,7 +85,7 @@ Questa immagine conterrà l'ambiente WebSphere Application Server 8.5.5.13 con l
 * **.(dot)**: la cartella di riferimento (in questo caso quella dove viene eseguito il comando
 
 ### Effetti del comando
-Docker effettua la build dell'immagine assumendo come **docker context** la cartella dove è eseguito il comando.
+Docker effettua la build dell'immagine assumendo come **docker context** la cartella dove è eseguito il comando e utilizzando per la build il file **Dockerfile8**.
 L'immagine sarà taggata col nome **my-was8-app**.
 
 ## <a name="Task_3"></a>Creazione del container (versione 8)

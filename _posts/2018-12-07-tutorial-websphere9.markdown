@@ -60,7 +60,7 @@ I file rilevanti sono i seguenti:
 
 Eseguiamo il seguente comando per visualizzare il contenuto del **Dockerfile**
 ```.term1
-   cat Dockerfile
+   cat Dockerfile9
 ```
 e il seguente per visualizzare il file di script **apply-configuration.sh**
 ```.term1
@@ -126,7 +126,7 @@ Per fermare e rimuover il container eseguiremo il comando
 ## <a name="Task_5"></a>Considerazioni finali
 Nel nostro esempio, abbiamo utilizzato due distinti Dockerfiles in quanto il funzionamento delle due immagini di base di WebSphere è differente.
 
-Oltre a camnbiare il nome dell'immagine di base, infatti, cambia anche il comando **CMD** da invocare.
+Oltre a cambiare il nome dell'immagine di base, infatti, cambia anche il comando **CMD** da invocare.
 
 Per casistiche più semplici, laddove cambi *solamente* il nome dell'immagine di base, è possibile utilizzare il comando **ARG** che va a specificare una variabile di build.
 
