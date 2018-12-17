@@ -9,7 +9,7 @@ terms: 1
 ---
 
 In questo laboratorio, verranno mostrati i comandi basilari di Docker e un semplice workflow di tipo *build-ship-run*. 
-Saranno utilizzate immagine già esistenti per creare dei containers e cominciare a muoversi tra i differenti comandi e sottocomandi messi a disposizione da docker.
+Saranno utilizzate immagine già esistenti per creare dei container e cominciare a muoversi tra i differenti comandi e sottocomandi messi a disposizione da docker.
 
 > **Difficoltà**: Facile
 
@@ -21,8 +21,9 @@ Saranno utilizzate immagine già esistenti per creare dei containers e cominciar
 > * [Task 1: Ciao mondo](#Task_1)
 > * [Task 2: Ciao mondo (versione demonizzata)](#Task_2)
 > * [Task 3: Visualizzazione dei logs](#Task_3)
-> * [Task 4: Lista dei containers](#Task_4)
+> * [Task 4: Lista dei container](#Task_4)
 > * [Task 5: Esecuzione di comandi all'interno di un container](#Task_5)
+> * [Task 6: Rimozione di tutti i container](#Task_6)
 
 ## <a name="Task_1"></a>Ciao mondo
 
@@ -76,7 +77,6 @@ Eseguiamo il seguente comando:
 ```.term1
     docker run -d --name test-ubuntu --rm ubuntu:18.04 /bin/sh \
     -c "while true; do echo hello world; sleep 1; done"
-
 ```
 Il risultato sarà simile al seguente:
 
@@ -85,7 +85,7 @@ Il risultato sarà simile al seguente:
 ```
 
 La stringa riportata sul terminale è il *container ID* associato al container appena creato e avviato.
-Rappresenta un identificativo univoco: non possono esistere due differenti containers aventi lo stesso identificativo.
+Rappresenta un identificativo univoco: non possono esistere due differenti container aventi lo stesso identificativo.
 
 ### Analisi della sintassi del comando
 * **docker run**: il subcomando che indica di creare e avviare un nuovo container
@@ -138,9 +138,9 @@ Il risultato sarà simile al seguente:
 Docker recupera il log per il container di nome *test-ubuntu* e stampa a video le ultime 10 righe corredate di timestamp
 
 
-## <a name="Task_4"></a>Lista dei containers
+## <a name="Task_4"></a>Lista dei container
 
-Per visualizzare e avere informazioni sui containers presenti all'interno di un sistema Docker, è messo a disposizione il sottocomando *ps*.
+Per visualizzare e avere informazioni sui container presenti all'interno di un sistema Docker, è messo a disposizione il sottocomando *ps*.
 Eseguiamo il seguente comando:
 
 ```.term1
@@ -154,12 +154,12 @@ CONTAINER ID        IMAGE               COMMAND                  CREATED        
 ```
 
 ### Analisi della sintassi del comando
-* **docker ps**: il subcomando che indica di visualizzare i containers
-* **-a**: indica a Docker di visualizzare tutti containers, anche quelli non attivi
+* **docker ps**: il subcomando che indica di visualizzare i container
+* **-a**: indica a Docker di visualizzare tutti container, anche quelli non attivi
 * **-s**: stampa la dimensione totale del file
 
 ### Effetti del comando
-Docker stampa a video una serie di informazioni su tutti i containers presenti nel sistema. Tra queste informazioni è presente anche la dimensione del file.
+Docker stampa a video una serie di informazioni su tutti i container presenti nel sistema. Tra queste informazioni è presente anche la dimensione del file.
 
 ## <a name="Task_5"></a>Esecuzione di comandi all'interno di un container
 
@@ -202,4 +202,20 @@ boot  etc  lib   media  opt  root  sbin  sys  usr
 Docker si è connesso al container avente nome **test-ubuntu**; ha allocato una TTY e mantiene aperto lo STDIN (standard input) per ricevere i comandi.
 Esegue il comando **bash** che apre una shell interattiva.
 Sarà possibile uscire da tale shell con il comando **exit**
+
+## <a name="Task_6"></a>Rimozione di tutti i container
+
+Eseguendo il seguente comando si rimuoveranno **TUTTI** i container, siano essi in esecuzione che stoppati.
+Usare con attenzione!
+```.term1
+    docker rm -f $(docker ps -a -q)
+```
+
+### Analisi della sintassi del comando
+* **docker rm**: il subcomando che indica di rimuovere uno o più container
+* **-f**: indica a Docker di forzare la rimozione del container anche se questo è attivo
+* **$(docker ps -a -q)**: Questo comando restituisce la lista dei **container ID** presenti nel sistema
+
+### Effetti del comando
+Docker elimina **TUTTI** i container presenti nel sistema, indipendentemente dal loro stato.
 
