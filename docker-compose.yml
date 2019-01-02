@@ -9,11 +9,6 @@ services:
       - ./:/srv/jekyll
     ports:
       - 4000:4000
-    command: ["jekyll", "serve"]
-
-#This service is just for building the site
-#  build:
-#    image: jekyll/jekyll:3
-#    volumes:
-#      - ./:/srv/jekyll
-#    command: "jekyll b"
+    command: ["jekyll", "serve"]  
+    env_file:
+      - global-variables.env
