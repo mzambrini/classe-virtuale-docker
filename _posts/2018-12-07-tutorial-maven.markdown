@@ -41,7 +41,6 @@ La struttura del progetto è la seguente:
 ├───.m2
 │       settings-default.xml
 │       settings-proxy.xml
-│       settings.xml
 │
 ├───src
 │   ├───main
@@ -105,11 +104,11 @@ Questa è l'informazione che utilizzeremo per scegliere l'immagine maven più ad
 Se ci troviamo dietro un proxy aziendale, è necessario utilizzare un file **settings.xml** contenente la configurazione del proxy.
 Conviene impostare una variabile di ambiente:
 ```.term1
-   M2_SETTINGS=${PWD}\.m2\settings-proxy.xml
+   M2_SETTINGS=${PWD}/.m2/settings-proxy.xml
 ```
 nel caso ciò non sia vero (non serve il proxy) possiamo usare il comando:
 ```.term1
-   M2_SETTINGS=${PWD}\.m2\settings-default.xml
+   M2_SETTINGS=${PWD}/.m2/settings-default.xml
 ```
 Eseguiamo ora il comando:
 ```.term1
