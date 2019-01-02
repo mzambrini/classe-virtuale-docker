@@ -34,6 +34,7 @@ La struttura del progetto è la seguente:
 
 ```
 │   .gitignore
+│   global-variables.env
 │   pom.xml
 │   README.md
 │
@@ -82,6 +83,7 @@ La struttura del progetto è la seguente:
 
 I file rilevanti sono i seguenti:
 * **pom.xml**: il file utilizzato da maven per reperire tutte le informazioni necessarie alla build
+* **global-variables.env**: il file utilizzato per passare al container di maven le variaibli di ambiente necessarie per accedere a internet
 * **.m2/settings.xml**: il file xml per la configurazione di maven (nel nostro esempio non contiene nulla di sostanziale)
 * **src/main/java**: la cartella contenente i sorgenti java
 * **src/test/java**: la cartella contenente i sorgenti java dei test unitari
@@ -92,14 +94,9 @@ Eseguiamo il seguente comando per visualizzare il contenuto del **pom.xml**
 ```.term1
    cat pom.xml
 ```
-
 Se ci troviamo dietro un proxy aziendale, è necessario passare alcune variabili di ambiente al container docker.
-Per semplicità utilizzeremo un file contenente tali variabili.
-Innanzitutto creiamo il file:
-```.term1
-   touch global-variables.env
-```
-Poi lo andiamo a popolare (questa operazione può essere omessa se non utilizziamo un proxy)
+
+Andiamo a popolare il file **global-variables.env** (questa operazione può essere omessa se non utilizziamo un proxy)
 
 ```.term1
    echo  http_proxy=http://191.191.29.66:3128 >> global-variables.env
@@ -113,11 +110,6 @@ Poi lo andiamo a popolare (questa operazione può essere omessa se non utilizzia
    echo NO_PROXY=127.0.0.1,191.191.29.66 >> global-variables.env
 ```
 
-
-
-
-
---env-file
 ## <a name="Task_2"></a>Build dei sorgenti
 Dall'analisi del file **pom.xml** si può desumere che dovrà essere utilizzata la versione **7** della *Java Virtual Machine*.
 Questa è l'informazione che utilizzeremo per scegliere l'immagine maven più adatta alle nostre esigenze.
