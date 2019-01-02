@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Maven tutorial - Usiamo docker per buildare le nostre applicazioni java"
-date:   2019-01-03
+date:   2018-12-07
 author: "@mzambrini"
 tags: [beginner, linux, operations, developer]
 categories: beginner
@@ -115,7 +115,10 @@ All'interno del container viene eseguito il comando *mvn clean install*.
 
 Al termine dell'elaborazione, il container viene rimosso (flag *--rm*).
 
-Il risultato dell'elaborazione sarà presente nella cartella *target*
+Il risultato dell'elaborazione sarà presente nella cartella *target* come è possibile vedere eseguendo il comando
+```.term1
+   ls target
+```
 
 ### Commenti
 In questo caso, Docker ha utilizzato la sua versione del file *settings.xml* e non quella presente nel progetto.

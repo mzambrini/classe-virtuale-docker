@@ -12,8 +12,8 @@ services:
     command: ["jekyll", "serve"]
 
 #This service is just for building the site
-  build:
-    image: jekyll/jekyll:3
-    volumes:
-      - ./:/srv/jekyll
-    command: ""
+#  build:
+#    image: jekyll/jekyll:3
+#    volumes:
+#      - ./:/srv/jekyll
+#    command: "jekyll b"
