@@ -88,7 +88,6 @@ I file rilevanti sono i seguenti:
 * **global-variables.env**: il file utilizzato per passare al container di maven le variaibli di ambiente necessarie per accedere a internet
 * **.m2/settings-default.xml**: il file xml di default per la configurazione di maven (nel nostro esempio non contiene nulla di sostanziale)
 * **.m2/settings-proxy.xml**: il file xml per la configurazione di maven con le informazioni del proxy
-* **.m2/settings.xml**: il file xml per la configurazione di maven (nel nostro esempio non contiene nulla di sostanziale)
 * **src/main/java**: la cartella contenente i sorgenti java
 * **src/test/java**: la cartella contenente i sorgenti java dei test unitari
 * **src/test/resources**: la cartella contenente i file di properties necessari per i test unitari
@@ -98,22 +97,28 @@ Eseguiamo il seguente comando per visualizzare il contenuto del **pom.xml**
 ```.term1
    cat pom.xml
 ```
-Se ci troviamo dietro un proxy aziendale, è necessario configurare il proxy nel file **settings.xml**
-Per far ciò è sufficiente eseguire il comando
-```.term1
-   cp .m2/settings-proxy.xml ./m2/settings.xml
-```
+
 ## <a name="Task_2"></a>Build dei sorgenti
 Dall'analisi del file **pom.xml** si può desumere che dovrà essere utilizzata la versione **7** della *Java Virtual Machine*.
 Questa è l'informazione che utilizzeremo per scegliere l'immagine maven più adatta alle nostre esigenze.
 
+Se ci troviamo dietro un proxy aziendale, è necessario utilizzare un file **settings.xml** contenente la configurazione del proxy.
+Conviene impostare una variabile di ambiente:
+```.term1
+   M2_SETTINGS=${PWD}\.m2\settings-proxy.xml
+```
+nel caso ciò non sia vero (non serve il proxy) possiamo usare il comando:
+```.term1
+   M2_SETTINGS=${PWD}\.m2\settings-default.xml
+```
 Eseguiamo ora il comando:
 ```.term1
-   docker run --rm -v ${PWD}:/usr/src/mymaven -w /usr/src/mymaven  maven:3-jdk-7-slim mvn clean install
+   docker run --rm -v ${M2_SETTINGS}:/root/.m2/settings.xml -v ${PWD}:/usr/src/mymaven -w /usr/src/mymaven  maven:3-jdk-7-slim mvn clean install
 ```
 ### Analisi della sintassi del comando
 * **docker run**: il subcomando che indica di creare ed avviare il container
 * **--rm**: indica a Docker di rimuovere il container una volta terminata l'elaborazione
+* **-v ${M2_SETTINGS}:/root/.m2/settings.xml**: mappa il file puntato dalla variabile *M2_SETTINGS* dell'host al file di settings del container
 * **-v ${PWD}:/usr/src/mymaven**: mappa la cartella corrente dell'host alla cartella */usr/src/mymaven* del container
 * **-w /usr/src/mymaven**: indica quale cartella di lavoro la cartella del container */usr/src/mymaven*
 * **maven:3-jdk-7-slim**: l'immagine utilizzata per creare il container
@@ -123,6 +128,8 @@ Eseguiamo ora il comando:
 Docker recupera l’immagine *maven:3-jdk-7-slim* dall'Hub Docker e avvia un nuovo container.
 
 La cartella corrente dell'host viene mappata alla cartella */usr/src/mymaven* del container; detta cartella è configurata anche come *working dir* (flag *-w*).
+
+Viene utilizzato il file di settings puntato dalla variabile *M2_SETTINGS*
 
 All'interno del container viene eseguito il comando *mvn clean install*.
 
@@ -134,15 +141,27 @@ Il risultato dell'elaborazione sarà presente nella cartella *target* come è po
 ```
 
 ### Commenti
-In questo caso, Docker ha utilizzato la sua versione del file *settings.xml* e non quella presente nel progetto.
-Stesso ragionamento vale per il repository locale, che è stato popolato all'intero del container e poi è andato *perso* con l'eliminazione del container al tempotermine dell'elaborazione.
+In questo caso, Docker ha utilizzato un suo repository locale che è stato popolato all'interno del container.
+Al termine dell'elaborazione, il container è stato distrutto insieme al repository locale.
 
 Questa è la situazione più *pulita* possibile. Se una build non funziona, sicuramente non dipende da un repository locale corrotto (succede raramente, ma può succedere).
 Tuttavia non è la soluzione più veloce. Ogni volta che effettuiamo una build bisogna riscaricare tutti i plugin utilizzati da maven.
 
 ## <a name="Task_3"></a>Caching del repository locale
 E' possibile effetuare il caching del repository locale mappando semplicemente un volume alla cartella **/root/.m2** del container.
-Nel nostro caso non andremo a creare un volume con il comando **docker volume create** ma utilizzeremo la cartella locale **.m2** che contiene anche il file di configurazione **settings.xml**.
+Nel nostro caso non andremo a creare un volume con il comando **docker volume create** ma utilizzeremo la cartella locale **.m2**.
+Stavolta, però, dovremo settare esplicitamente il file di settings visto che mappiamo tutta la cartella che lo contiene.
+
+
+Se ci troviamo dietro un proxy aziendale eseguiremo il comando:
+
+```.term1
+   cp ${PWD}/.m2/settings-proxy.xml ${PWD}/.m2/settings.xml
+```
+altrimenti:
+```.term1
+   cp ${PWD}/.m2/settings-default.xml ${PWD}/.m2/settings.xml
+```
 
 Il nuovo comando sarà
 ```.term1
@@ -192,11 +211,3 @@ Inoltre, questo approccio è molto utile, in quanto **stateless**, ovvero una bu
 Insomma, i motivi possono essere molteplici.
 
 L'approccio stateless permette di escludere facilmente e velocemente questa tipologia di problematiche.
-
-E' possibile mappare il solo file **settings.xml** con il seguente comando:
-```.term1
-   docker run --rm -v C:\VSC-workspace\tutorial-maven:/usr/src/mymaven -w /usr/src/mymaven -v C:\VSC-workspace\tutorial-maven\.m2\settings.xml:/root/.m2/settings.xml
-  maven:3-jdk-7-slim mvn help:effective-settings
-```
-
-Ciò può essere utile per impostare, ad esempio, eventuali **mirroring** o server di **Distribution Management** ma mantenere un approccio stateless.
