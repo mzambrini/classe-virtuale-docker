@@ -23,7 +23,7 @@ Sfruttando, infatti, il costrutto **ARG** definito all'interno del Dockerfile, p
 > * [Task 2: Build dell'immagine con WebSphere 9.0.0.8](#Task_2)
 > * [Task 3: Creazione del container (versione 9)](#Task_3)
 > * [Task 4: Verifica e test](#Task_4)
-> * [Task 4: Considerazioni finali](#Task_5)
+> * [Task 5: Considerazioni finali](#Task_5)
 
 ## <a name="Task_1"></a>Cloning del progetto di esempio
 Eseguiamo i comandi:
