@@ -39,6 +39,8 @@ La struttura del progetto è la seguente:
 │   README.md
 │
 ├───.m2
+│       settings-default.xml
+│       settings-proxy.xml
 │       settings.xml
 │
 ├───src
@@ -84,6 +86,8 @@ La struttura del progetto è la seguente:
 I file rilevanti sono i seguenti:
 * **pom.xml**: il file utilizzato da maven per reperire tutte le informazioni necessarie alla build
 * **global-variables.env**: il file utilizzato per passare al container di maven le variaibli di ambiente necessarie per accedere a internet
+* **.m2/settings-default.xml**: il file xml di default per la configurazione di maven (nel nostro esempio non contiene nulla di sostanziale)
+* **.m2/settings-proxy.xml**: il file xml per la configurazione di maven con le informazioni del proxy
 * **.m2/settings.xml**: il file xml per la configurazione di maven (nel nostro esempio non contiene nulla di sostanziale)
 * **src/main/java**: la cartella contenente i sorgenti java
 * **src/test/java**: la cartella contenente i sorgenti java dei test unitari
@@ -94,34 +98,22 @@ Eseguiamo il seguente comando per visualizzare il contenuto del **pom.xml**
 ```.term1
    cat pom.xml
 ```
-Se ci troviamo dietro un proxy aziendale, è necessario passare alcune variabili di ambiente al container docker.
-
-Andiamo a popolare il file **global-variables.env** (questa operazione può essere omessa se non utilizziamo un proxy)
-
+Se ci troviamo dietro un proxy aziendale, è necessario configurare il proxy nel file **settings.xml**
+Per far ciò è sufficiente eseguire il comando
 ```.term1
-   echo  http_proxy=http://191.191.29.66:3128 >> global-variables.env
-   echo https_proxy=http://191.191.29.66:3128 >> global-variables.env
-   echo no_proxy=127.0.0.1,191.191.29.66 >> global-variables.env
+   cp .m2/settings-proxy.xml ./m2/settings.xml
 ```
-
-```.term1
-   echo HTTP_PROXY=http://191.191.29.66:3128 >> global-variables.env
-   echo HTTP_PROXY=http://191.191.29.66:3128 >> global-variables.env
-   echo NO_PROXY=127.0.0.1,191.191.29.66 >> global-variables.env
-```
-
 ## <a name="Task_2"></a>Build dei sorgenti
 Dall'analisi del file **pom.xml** si può desumere che dovrà essere utilizzata la versione **7** della *Java Virtual Machine*.
 Questa è l'informazione che utilizzeremo per scegliere l'immagine maven più adatta alle nostre esigenze.
 
 Eseguiamo ora il comando:
 ```.term1
-   docker run --rm --env-file global-variables.env -v ${PWD}:/usr/src/mymaven -w /usr/src/mymaven  maven:3-jdk-7-slim mvn clean install
+   docker run --rm -v ${PWD}:/usr/src/mymaven -w /usr/src/mymaven  maven:3-jdk-7-slim mvn clean install
 ```
 ### Analisi della sintassi del comando
 * **docker run**: il subcomando che indica di creare ed avviare il container
 * **--rm**: indica a Docker di rimuovere il container una volta terminata l'elaborazione
-* **--env-file global-variables.env**: speicifca il file contenente le variabili di ambiente da passare al container
 * **-v ${PWD}:/usr/src/mymaven**: mappa la cartella corrente dell'host alla cartella */usr/src/mymaven* del container
 * **-w /usr/src/mymaven**: indica quale cartella di lavoro la cartella del container */usr/src/mymaven*
 * **maven:3-jdk-7-slim**: l'immagine utilizzata per creare il container
@@ -154,12 +146,11 @@ Nel nostro caso non andremo a creare un volume con il comando **docker volume cr
 
 Il nuovo comando sarà
 ```.term1
-  docker run --rm --env-file global-variables.env -v ${PWD}/.m2:/root/.m2 -v ${PWD}:/usr/src/mymaven -w /usr/src/mymaven  maven:3-jdk-7-slim mvn clean install
+  docker run --rm -v ${PWD}/.m2:/root/.m2 -v ${PWD}:/usr/src/mymaven -w /usr/src/mymaven  maven:3-jdk-7-slim mvn clean install
 ```
 ### Analisi della sintassi del comando
 * **docker run**: il subcomando che indica di creare ed avviare il container
 * **--rm**: indica a Docker di rimuovere il container una volta terminata l'elaborazione
-* **--env-file global-variables.env**: speicifca il file contenente le variabili di ambiente da passare al container
 * **-v ${PWD}/.m2:/root/.m2**: mappa la sottocartella **.m2** della cartella corrente dell'host alla cartella */root/.m2* del container
 * **-v ${PWD}:/usr/src/mymaven**: mappa la cartella corrente dell'host alla cartella */usr/src/mymaven* del container
 * **-w /usr/src/mymaven**: indica quale cartella di lavoro la cartella del container */usr/src/mymaven*
@@ -189,7 +180,7 @@ Il risultato dell'elaborazione sarà presente nella cartella *target* come è po
 ```
 Rieseguiamo ora lo stesso comando:
 ```.term1
-  docker run --rm --env-file global-variables.env -v ${PWD}/.m2:/root/.m2 -v ${PWD}:/usr/src/mymaven -w /usr/src/mymaven  maven:3-jdk-7-slim mvn clean install
+  docker run --rm -v ${PWD}/.m2:/root/.m2 -v ${PWD}:/usr/src/mymaven -w /usr/src/mymaven  maven:3-jdk-7-slim mvn clean install
 ```
 
 Si potrà notare facilmente una maggior velocità di esecuzione in quanto i plugin di maven e le dipendenze del progetto non dovranno esere scaricati nuovamente.
@@ -204,7 +195,7 @@ L'approccio stateless permette di escludere facilmente e velocemente questa tipo
 
 E' possibile mappare il solo file **settings.xml** con il seguente comando:
 ```.term1
-   docker run --rm --env-file global-variables.env -v C:\VSC-workspace\tutorial-maven:/usr/src/mymaven -w /usr/src/mymaven -v C:\VSC-workspace\tutorial-maven\.m2\settings.xml:/root/.m2/settings.xml
+   docker run --rm -v C:\VSC-workspace\tutorial-maven:/usr/src/mymaven -w /usr/src/mymaven -v C:\VSC-workspace\tutorial-maven\.m2\settings.xml:/root/.m2/settings.xml
   maven:3-jdk-7-slim mvn help:effective-settings
 ```
 
