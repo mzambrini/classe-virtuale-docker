@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "WebSphere tutorial - Usiamo docker per le nostre applicazioni WebSphere (parte 2)"
+title:  "WebSphere tutorial - Usiamo docker per le nostre applicazioni WebSphere"
 date:   2018-11-19
 author: "@mzambrini"
 tags: [beginner, linux, operations, developer]
@@ -8,9 +8,9 @@ categories: beginner
 terms: 1
 ---
 
-In questa seconda parte del laboratorio, si vedrà come passare dei **build args** durante la fase di costruzione dell'immagine.
-Sfruttando, infatti, il costrutto **ARG** definito all'interno del Dockerfile, possiamo decidere di installare la nostra applicazione su una versione differente di WebSphere per verificare, ad esempio, la compatibilità.
-
+In questo laboratorio, si vedrà come utilizzare Docker per creare un container WebSphere che possa eseguire la nostra applicazione JavaEE.
+Sarà scaricato un semplice progetto da GitHub e verrà buildata l'immagine definita nel Dockerfile.
+Il Dockefile è caratterizzato dal fatto di avere una doppia clausola FROM.
 
 > **Difficoltà**: Facile
 
@@ -115,9 +115,7 @@ Quando il server avrà terminato la fase di *bootstrap* potremo premere **CTRL+C
 
 ## <a name="Task_4"></a>Verifica e test
 
-Una volta che il server sarà inizializzato sarà possibile accedere alla:
-*  **[console amministrativa](/ibm/console/){:data-term=".term1"}{:data-port="9060"}**
-*  **[applicazione](/SampleAjax/index.faces){:data-term=".term1"}{:data-port="9080"}**
+Una volta che il server sarà inizializzato sarà possibile accedere all'**[applicazione](/SampleAjax/index.faces){:data-term=".term1"}{:data-port="9080"}**
 
 Per fermare e rimuover il container eseguiremo il comando
 ```.term1

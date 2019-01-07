@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "WebSphere tutorial - Usiamo docker per le nostre applicazioni WebSphere (parte 1)"
+title:  "WebSphere tutorial - Usiamo docker per le nostre applicazioni WebSphere"
 date:   2018-11-19
 author: "@mzambrini"
 tags: [beginner, linux, operations, developer]
