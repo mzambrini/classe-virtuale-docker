@@ -90,28 +90,7 @@ Nel nostro caso, sul finire del file json, ci sarà una sezione simile alla segu
 Possiamo vedere che il container è stato assegnato al bridge di default e che il suo indirizzo IP è 172.17.0.2 (durante l'esercitazione questo valore potrebbe differire).
 
 ## <a name="Task_3"></a>Ping!
-Proviamo ora ad eseguire un semplice comando ping:
-
-```.term1
-   docker exec servizio-due /bin/sh -c 'ping -c 4 www.google.com'
-```
-
-Il risultato sarà simile al seguente.
-
-```
-PING www.google.com (216.58.218.228): 56 data bytes
-64 bytes from 216.58.218.228: seq=0 ttl=49 time=2.030 ms
-64 bytes from 216.58.218.228: seq=1 ttl=49 time=2.687 ms
-64 bytes from 216.58.218.228: seq=2 ttl=49 time=2.084 ms
-64 bytes from 216.58.218.228: seq=3 ttl=49 time=1.967 ms
-
---- www.google.com ping statistics ---
-4 packets transmitted, 4 packets received, 0% packet loss
-round-trip min/avg/max = 1.967/2.192/2.687 ms
-```
-Abbiamo, quindi, verificato come Google risponda correttamente al nostro comando ping.
-
-Proviamo ora a pingare l'altro container:
+Proviamo ora ad eseguire un semplice comando ping sul container *servizio-uno*:
 
 ```.term1
    docker exec servizio-due /bin/sh -c 'ping -c 4 servizio-uno'
@@ -122,8 +101,8 @@ Il risultato sarà solamente
 ping: bad address 'servizio-uno'
 ```
 
-Ciò avviene perché, come già detto, sul bridge di default non vi è un servizio di risoluzione di nomi. 
-Occorre conoscere l'indirizzo IP, ma tale informazione non è nota al momento della creazione del container.
+Ciò avviene perché sul bridge di default non vi è un servizio di risoluzione di nomi. 
+Occorre conoscere l'indirizzo IP, ma tale informazione non è (solitamente) nota al momento della creazione del container.
 
 ## <a name="Task_4"></a>Utilizzo del flag *--link*
 
