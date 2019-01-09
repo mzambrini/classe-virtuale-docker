@@ -59,14 +59,12 @@ Questo, come detto, è un file di script molto semplice che fa tre cose:
 
 Eseguiamo ora il comando:
 ```.term1
-   docker build --build-arg http_proxy=http://191.191.29.66:3128 --build-arg https_proxy=http://191.191.29.66:3128 --build-arg USER=pincopalla --build-arg GROUP=gruppo -t mondo .
+   docker build --build-arg USER=pincopalla --build-arg GROUP=gruppo -t mondo .
 ```
 alla fine, avremo creato la nostra immagine **mondo**.
 
 ### Analisi della sintassi del comando
 * **docker build**: il subcomando che indica di creare l'immagine
-* **--build-arg http_proxy=http://191.191.29.66:3128**: indica di impostare la variabile di ambiente **http_proxy**
-* **--build-arg https_proxy=http://191.191.29.66:3128**: indica di impostare la variabile di ambiente **https_proxy**
 * **--build-arg USER=pincopalla**: indica di impostare il valore dell'argomento di build **USER** con il valore **pincopalla**
 * **--build-arg GROUP=gruppo**: indica di impostare il valore dell'argomento di build **GROUP** con il valore **gruppo**
 * **-t mondo**: imposta il nome (e opzionalmente) il tag dell'immagine da creare nel formato *nome:tag*
