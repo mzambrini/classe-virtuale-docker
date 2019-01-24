@@ -122,7 +122,7 @@ Con il comando seguente verifichiamo che il server sia stato correttamente avvia
 ```
 
 Verifichiamo ora l'accessibilità del container:
-* **[Link al container nginx](/){:data-term=".term1"}{:data-port="8000"}**
+* **[Link all'applicazione](/){:data-term=".term1"}{:data-port="8000"}**
 
 ## <a name="Task_4"></a>Considerazioni finali
 Abbiamo visto come sia possibile utilizzare docker per compilare, testare e avviare applicazione sviluppate con la piattaforma dotNet.
