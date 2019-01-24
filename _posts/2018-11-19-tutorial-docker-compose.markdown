@@ -121,6 +121,9 @@ services:
     build:
       context: ./db-init
       dockerfile: Dockerfile
+      args:
+        - http_proxy=http://191.191.29.66:3128
+        - https_proxy=http://191.191.29.66:3128
     restart: on-failure
     env_file:
       - global-variables.env
@@ -133,6 +136,9 @@ services:
     build:
       context: ./node-app
       dockerfile: Dockerfile
+      args:
+        - http_proxy=http://191.191.29.66:3128
+        - https_proxy=http://191.191.29.66:3128
     restart: on-failure
     ports:
       - "3000:3000"
