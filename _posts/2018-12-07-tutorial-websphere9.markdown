@@ -62,9 +62,66 @@ Eseguiamo il seguente comando per visualizzare il contenuto del **Dockerfile**
 ```.term1
    cat Dockerfile9
 ```
-e il seguente per visualizzare il file di script **apply-configuration.sh**
+il risultato sarà simile al seguente:
+
+```dockerfile
+FROM brainmaxz/was-scripting:0.6.5 as Create
+LABEL maintainer="m.zambrini@informatica.aci.it"
+
+ENV JYTHON_FILE_NAME was_script.py
+COPY /config /config
+RUN /work/main
+
+FROM ibmcom/websphere-traditional:9.0.0.9-profile
+
+COPY /scripts /scripts
+COPY /artifacts  /artifacts
+COPY --from=Create /work/result/was_script.py /scripts
+
+USER 0
+
+RUN chown -R $USER:$GROUP /scripts && chmod -R a+x /scripts/*.sh 
+ 
+USER $USER
+
+RUN /scripts/apply-configuration.sh was_script.py
+
+CMD ["/work/start_server.sh"]
+```
+
+
+
+Visualizziamo il file di script **apply-configuration.sh**
 ```.term1
    cat scripts/apply-configuration.sh
+```
+
+ovvero
+```bash
+#!/bin/bash
+#####################################################################################
+#                                                                                   #
+#  Esegue tutti gli script di configurazione in cascata                             #
+#                                                                                   #
+#####################################################################################
+
+PROFILE_NAME=${PROFILE_NAME:-"AppSrv01"}
+
+scriptFile="/scripts/$1"
+
+test -r "$scriptFile" || { echo "Script file $scriptFile not found. Aborting"; exit 1;}
+echo "Applying script $1"
+/opt/IBM/WebSphere/AppServer/profiles/$PROFILE_NAME/bin/wsadmin.sh \
+     -lang jython \
+     -conntype NONE \
+     -f "$scriptFile"
+
+echo "Remove security"
+/opt/IBM/WebSphere/AppServer/profiles/$PROFILE_NAME/bin/wsadmin.sh \
+     -lang jython \
+     -conntype NONE \
+     -f "/scripts/remove-security.jython"
+
 ```
 
 ## <a name="Task_2"></a>Build dell'immagine con WebSphere 9.0.0.8
